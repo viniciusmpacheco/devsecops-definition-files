@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+  dvop-tool-automation-bamboo-server: # CI/CD Automation Server
+    container_name: dvop-tool-automation-bamboo-server
+    image: atlassian/bamboo
+    restart: always
+    volumes:
+      - dvop-tool-automation-bamboo-server-volume:/var/atlassian/application-data/bamboo/shared/configuration
+      - dvop-tool-automation-bamboo-server-volume:/var/atlassian/application-data/bamboo/shared/builds
+      - dvop-tool-automation-bamboo-server-volume:/var/atlassian/application-data/bamboo/shared/artifacts
+      - dvop-tool-automation-bamboo-server-volume:/var/atlassian/application-data/bamboo/shared/repository-specs
+      - dvop-tool-automation-bamboo-server-volume:/var/atlassian/application-data/bamboo/local-working-dir
+    environment:
+      ATL_ADMIN_USERNAME: admin
+      ATL_ADMIN_PASSWORD: admin
+      ATL_JDBC_URL: jdbc
+      ATL_JDBC_USER: admin
+      ATL_JDBC_PASSWORD: admin
+    ports:
+      - 28010:8085
+      - 28011:54663
+volumes:
+  dvop-tool-automation-bamboo-server-volume:
+    name: dvop-tool-automation-bamboo-server-volume
+  # dvop-tool-automation-jenkins-server-volume:
+  #   name: dvop-tool-automation-jenkins-volume
+  # dvop-tool-repository-artfactory-volume:
+  #   name: dvop-tool-repository-artfactory-volume
+  # dvop-tool-repository-nexus-volume:
+  #   name: dvop-tool-repository-nexus-volume
+  # dvop-tool-analysis-sonarqube-volume:  
+  #   name: dvop-tool-analysis-sonarqube-volume
+  # dvop-tool-analysis-fortify-volume:  
+  #   name: dvop-tool-analysis-fortify-volume
+  # dvop-tool-security-kong-volume:  
+  #   name: dvop-tool-security-kong-volume
+  # dvop-tool-security-keycloak-volume:  
+  #   name: general-tool-security-keycloak-volume
