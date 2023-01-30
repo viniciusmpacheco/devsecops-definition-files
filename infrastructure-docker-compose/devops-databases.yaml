@@ -39,6 +39,8 @@ services:
     volumes:
       - dvop-tool-database-mongo-volume:/data/db
       - dvop-tool-database-mongo-volume:/data/configdb
+      - dvop-tool-database-mongo-volume:/var/lib/mongodb # dbPath do MongoDB
+      - dvop-tool-database-mongo-volume:/var/log/mongodb/mongod.log # System log file do MongoDB
     ports:
       - 28006:27017
     environment:
