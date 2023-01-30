@@ -1,0 +1,89 @@
+version: '3.1'
+services:
+  dvop-tool-database-postgres: # Banco de dados para registro de dados de configuração para ferramentas
+    container_name: dvop-tool-database-postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - 28001:5432
+  dvop-tool-database-adminer-postgres: # UI para administração de bancos de dados Postgres
+    container_name: dvop-tool-database-adminer-postgres
+    image: adminer
+    restart: always
+    ports:
+      - 28002:8080
+  dvop-tool-database-mysql: # Banco de dados para registro de dados de configuração para ferramentas
+    container_name: dvop-tool-database-mysql
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - 28003:3306
+      - 28004:33060
+  dvop-tool-database-mysql-adminer: # UI para administração de bancos de dados MySQL
+    container_name: dvop-tool-database-mysql-adminer
+    image: adminer
+    restart: always
+    ports:
+      - 28005:8080
+  dvop-tool-database-mongo: # Banco de dados para registro de dados de configuração para ferramentas
+    container_name: dvop-tool-database-mongo
+    image: mongo:6.0.4
+    restart: always
+    volumes:
+      - dvop-tool-database-mongo-volume:/data/db
+      - dvop-tool-database-mongo-volume:/data/configdb
+    ports:
+      - 28006:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+  dvop-tool-database-mongo-express: # UI para administração de bancos de dados MongoDB
+    container_name: dvop-tool-database-mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - 28007:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: admin
+      ME_CONFIG_MONGODB_URL: mongodb://admin:admin@dvop-tool-database-mongo:27017/
+  dvop-tool-database-redis: # Banco de dados para registro de dados de configuração para ferramentas
+    container_name: dvop-tool-database-redis
+    image: redis
+    restart: always
+    hostname: redis
+    ports:
+      - 28008:6379
+  dvop-tool-database-redis-commander: # UI para administração de bancos de dados Redis
+    container_name: dvop-tool-database-redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    hostname: redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "28009:8081"
+volumes:
+  dvop-tool-database-postgres-volume:
+    name: dvop-tool-database-postgres-volume
+  dvop-tool-database-adminer-postgres-volume:
+    name: dvop-tool-database-adminer-postgres-volume
+  dvop-tool-database-mysql-volume:  
+    name: dvop-tool-database-mysql-volume
+  dvop-tool-database-mysql-adminer-volume:  
+    name: dvop-tool-database-mysql-adminer-volume
+  dvop-tool-database-mongo-volume:  
+    name: dvop-tool-database-mongo-volume
+  dvop-tool-database-mongo-express-volume:  
+    name: dvop-tool-database-mongo-express-volume
+  dvop-tool-database-redis-volume:
+    name: dvop-tool-database-redis-volume
+  dvop-tool-database-redis-commander:
+    name: dvop-tool-database-redis-commander-volume
